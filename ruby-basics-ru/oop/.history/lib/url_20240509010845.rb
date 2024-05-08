@@ -11,9 +11,10 @@ class Url
     def_delegators :@address, :scheme, :host, :port
 
     def <=>(other)
-        newUrl = if other.is_a?(String)
+        newUrl = case other.class
+        when String
             Url.new(other)
-        elsif other.is_a?(Url)
+        when Url
             other
         else
            raise 'unknown type'

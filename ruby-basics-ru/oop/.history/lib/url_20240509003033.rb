@@ -11,15 +11,8 @@ class Url
     def_delegators :@address, :scheme, :host, :port
 
     def <=>(other)
-        newUrl = if other.is_a?(String)
-            Url.new(other)
-        elsif other.is_a?(Url)
-            other
-        else
-           raise 'unknown type'
-        end
-
-        [@address.host, @address.scheme, @address.port, query_params] <=> [newUrl.host, newUrl.scheme, newUrl.port, newUrl.query_params]
+        newUrl = Url.new other
+        [@address.host, @address.scheme, query_params] <=> [newUrl.host, newUrl.scheme, newUrl.query_params]
       end
 
     def initialize(address)
@@ -27,17 +20,18 @@ class Url
     end
 
     def query_params
-        return {} if @address.query == nil
+        puts @address
         @address.query.split("&")
         .map do |str|
+            p str
             key, value = str.split("=")
             [key.to_sym, value]
         end
-        .to_h
+        .to_h ||= []
     end
 
     def query_param(key, default_value = nil)
-        query_params[key] ||= default_value
+        query_params[:key] ||= default_value
     end
 end
 # END

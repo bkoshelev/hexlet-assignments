@@ -15,9 +15,7 @@ class Url
             Url.new(other)
         elsif other.is_a?(Url)
             other
-        else
-           raise 'unknown type'
-        end
+        else raise 'unknown type'
 
         [@address.host, @address.scheme, @address.port, query_params] <=> [newUrl.host, newUrl.scheme, newUrl.port, newUrl.query_params]
       end
